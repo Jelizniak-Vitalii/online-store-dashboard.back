@@ -25,7 +25,7 @@ export class ApiResponseInterceptor<T>
       })),
       catchError((error) => {
         const message =
-          error.message || error.response || 'Internal Server Error';
+          error.response || error.message || 'Internal Server Error';
 
         if (error instanceof HttpException) {
           const statusCode = error.getStatus();
