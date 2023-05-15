@@ -4,6 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { ApiResponseInterceptor } from '../../shared/interceptors';
 import { UserDto } from '../users/dto';
+import { UserLoginDto } from './dto/user-login.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -12,7 +13,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
-  async login(@Body() userDto: UserDto) {
+  async login(@Body() userDto: UserLoginDto) {
     return this.authService.login(userDto);
   }
 

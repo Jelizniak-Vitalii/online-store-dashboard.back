@@ -18,6 +18,8 @@ import { Logger } from '../../shared/services';
       },
     }),
   ],
-  exports: [],
+  exports: [
+    JwtModule
+  ],
 })
 export class AuthModule {}
