@@ -8,11 +8,9 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 
 import { UsersService } from '../users';
-import { CreateUserDto } from './dto';
 import { Logger } from '../../shared/services';
 import { User } from '../users/models';
-import { UserDto } from "../users/dto";
-import { NUMBER } from "sequelize";
+import { UserDto } from '../users/dto';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +20,7 @@ export class AuthService {
     private readonly logger: Logger,
   ) {}
 
-  async login(userDto: CreateUserDto) {
+  async login(userDto: UserDto) {
     const user = await this.validateUser(userDto);
 
     this.logger.log(`User ${user.email} was logged in`);
@@ -51,7 +49,7 @@ export class AuthService {
     return this.generateToken(user);
   }
 
-  private async validateUser(userDto: CreateUserDto) {
+  private async validateUser(userDto: UserDto) {
     const user = await this.usersService.getUserByEmail(userDto.email);
 
     const passwordEquals = await bcrypt.compare(
