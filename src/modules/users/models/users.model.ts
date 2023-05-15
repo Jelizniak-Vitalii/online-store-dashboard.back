@@ -13,7 +13,13 @@ import { UserRoles } from './user-role.model';
 interface UserCreationAttrs {
   email: string;
   password: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  age: number;
 }
+
+//Add Migration sequelize migration:generate --name update_table
 
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttrs> {
@@ -33,6 +39,22 @@ export class User extends Model<User, UserCreationAttrs> {
   @ApiProperty({ example: '1234567890', description: 'Password' })
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
+
+  @ApiProperty({ example: 'John', description: 'First name' })
+  @Column({ type: DataType.STRING, allowNull: false })
+  first_name: string;
+
+  @ApiProperty({ example: 'Doe', description: 'Last name' })
+  @Column({ type: DataType.STRING, allowNull: false })
+  last_name: string;
+
+  @ApiProperty({ example: '+380123456789', description: 'Phone number' })
+  @Column({ type: DataType.STRING, allowNull: true })
+  phone: string;
+
+  @ApiProperty({ example: '18', description: 'Age' })
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  age: number;
 
   @BelongsToMany(() => Role, () => UserRoles)
   roles: Role[];

@@ -11,6 +11,8 @@ import { UsersService } from '../users';
 import { CreateUserDto } from './dto';
 import { Logger } from '../../shared/services';
 import { User } from '../users/models';
+import { UserDto } from "../users/dto";
+import { NUMBER } from "sequelize";
 
 @Injectable()
 export class AuthService {
@@ -27,7 +29,7 @@ export class AuthService {
     return this.generateToken(user);
   }
 
-  async registration(userDto: CreateUserDto) {
+  async registration(userDto: UserDto) {
     const candidate = await this.usersService.getUserByEmail(userDto.email);
 
     if (candidate) {
@@ -41,6 +43,7 @@ export class AuthService {
 
     const user = await this.usersService.createUser({
       ...userDto,
+      age: Number(userDto?.age),
       password: hashPassword,
     });
 
@@ -50,9 +53,10 @@ export class AuthService {
 
   private async validateUser(userDto: CreateUserDto) {
     const user = await this.usersService.getUserByEmail(userDto.email);
+
     const passwordEquals = await bcrypt.compare(
       userDto.password,
-      user.password,
+      user?.password ?? '',
     );
 
     if (user && passwordEquals) {
